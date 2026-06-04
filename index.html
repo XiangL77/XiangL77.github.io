@@ -1,0 +1,1328 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>李想 | AI 应用与多模态工程</title>
+    <meta
+      name="description"
+      content="李想的个人主页，展示 AI 应用、语音、多模态、RAG、计算机视觉相关经历。"
+    />
+    <style>
+      :root {
+        color-scheme: light;
+        --ink: #1d2433;
+        --muted: #687080;
+        --line: #d8dde6;
+        --paper: #f7f8fa;
+        --panel: #ffffff;
+        --green: #0d7c66;
+        --red: #b34545;
+        --gold: #9a6b13;
+        --blue: #2d66b3;
+        --shadow: 0 18px 50px rgba(32, 41, 58, 0.12);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        color: var(--ink);
+        background: var(--paper);
+        font-family:
+          Inter, "Noto Sans SC", "Microsoft YaHei", "PingFang SC",
+          ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+        line-height: 1.65;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      .nav {
+        position: sticky;
+        top: 0;
+        z-index: 5;
+        border-bottom: 1px solid rgba(216, 221, 230, 0.8);
+        background: rgba(247, 248, 250, 0.88);
+        backdrop-filter: blur(14px);
+      }
+
+      .nav-inner,
+      .section-inner,
+      .hero-inner {
+        width: min(1120px, calc(100% - 40px));
+        margin: 0 auto;
+      }
+
+      .nav-inner {
+        display: flex;
+        min-height: 64px;
+        align-items: center;
+        justify-content: space-between;
+        gap: 24px;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-weight: 760;
+      }
+
+      .avatar {
+        width: 36px;
+        height: 36px;
+        border: 1px solid var(--line);
+        border-radius: 50%;
+        object-fit: cover;
+      }
+
+      .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+        color: var(--muted);
+        font-size: 14px;
+      }
+
+      .nav-right {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+      }
+
+      .lang-switch {
+        display: inline-flex;
+        overflow: hidden;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--panel);
+      }
+
+      .lang-switch button {
+        min-height: 32px;
+        padding: 0 10px;
+        border: 0;
+        background: transparent;
+        color: var(--muted);
+        cursor: pointer;
+        font: inherit;
+        font-size: 13px;
+        font-weight: 720;
+      }
+
+      .lang-switch button.active {
+        background: #111827;
+        color: #ffffff;
+      }
+
+      .nav-links a:hover,
+      .text-link:hover {
+        color: var(--green);
+      }
+
+      .hero {
+        border-bottom: 1px solid var(--line);
+        background:
+          linear-gradient(120deg, rgba(13, 124, 102, 0.12), transparent 34%),
+          linear-gradient(220deg, rgba(179, 69, 69, 0.12), transparent 30%),
+          var(--paper);
+      }
+
+      .hero-inner {
+        display: grid;
+        min-height: 540px;
+        grid-template-columns: minmax(0, 1fr) 350px;
+        gap: 54px;
+        align-items: center;
+        padding: 58px 0 48px;
+      }
+
+      .eyebrow {
+        margin: 0 0 16px;
+        color: var(--green);
+        font-size: 13px;
+        font-weight: 780;
+        letter-spacing: 0;
+        text-transform: uppercase;
+      }
+
+      h1 {
+        max-width: 760px;
+        margin: 0;
+        font-size: clamp(40px, 6vw, 66px);
+        line-height: 1.08;
+        letter-spacing: 0;
+      }
+
+      .lead {
+        max-width: 690px;
+        margin: 20px 0 0;
+        color: #4d5666;
+        font-size: 19px;
+      }
+
+      .contact-strip {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px 18px;
+        margin-top: 22px;
+        color: var(--muted);
+        font-size: 15px;
+      }
+
+      .availability {
+        display: inline-flex;
+        align-items: center;
+        margin-top: 18px;
+        padding: 10px 14px;
+        border: 1px solid rgba(13, 124, 102, 0.24);
+        border-radius: 8px;
+        background: rgba(13, 124, 102, 0.08);
+        color: #0b5f4f;
+        font-size: 15px;
+        font-weight: 720;
+      }
+
+      .text-link {
+        color: var(--ink);
+        font-weight: 720;
+        text-decoration: underline;
+        text-decoration-color: rgba(13, 124, 102, 0.32);
+        text-underline-offset: 4px;
+      }
+
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 28px;
+      }
+
+      .button {
+        display: inline-flex;
+        min-height: 44px;
+        align-items: center;
+        justify-content: center;
+        padding: 0 18px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--panel);
+        box-shadow: 0 5px 16px rgba(32, 41, 58, 0.06);
+        color: var(--ink);
+        font-weight: 720;
+      }
+
+      .button.primary {
+        border-color: #111827;
+        background: #111827;
+        color: #ffffff;
+      }
+
+      .profile-card {
+        min-height: 390px;
+        overflow: hidden;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--panel);
+        box-shadow: var(--shadow);
+      }
+
+      .profile-top {
+        height: 148px;
+        background:
+          linear-gradient(135deg, rgba(45, 102, 179, 0.95), rgba(13, 124, 102, 0.92)),
+          url("https://avatars.githubusercontent.com/u/199927132?v=4");
+        background-position: center;
+        background-size: cover;
+      }
+
+      .profile-body {
+        padding: 26px;
+      }
+
+      .profile-avatar {
+        width: 92px;
+        height: 92px;
+        margin-top: -72px;
+        border: 4px solid var(--panel);
+        border-radius: 50%;
+        box-shadow: 0 8px 24px rgba(32, 41, 58, 0.18);
+        object-fit: cover;
+      }
+
+      .profile-card h2 {
+        margin: 14px 0 4px;
+        font-size: 28px;
+        letter-spacing: 0;
+      }
+
+      .profile-card p {
+        margin: 0;
+        color: var(--muted);
+      }
+
+      .stat-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+        margin-top: 24px;
+      }
+
+      .stat {
+        min-height: 82px;
+        padding: 12px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+      }
+
+      .stat strong {
+        display: block;
+        font-size: 21px;
+        line-height: 1;
+      }
+
+      .stat span {
+        display: block;
+        margin-top: 8px;
+        color: var(--muted);
+        font-size: 12px;
+      }
+
+      section {
+        padding: 64px 0;
+      }
+
+      .section-head {
+        display: flex;
+        align-items: end;
+        justify-content: space-between;
+        gap: 28px;
+        margin-bottom: 26px;
+      }
+
+      .section-head h2 {
+        margin: 0;
+        font-size: 34px;
+        letter-spacing: 0;
+      }
+
+      .section-head p {
+        max-width: 560px;
+        margin: 0;
+        color: var(--muted);
+      }
+
+      .two-col {
+        display: grid;
+        grid-template-columns: 0.92fr 1.08fr;
+        gap: 18px;
+      }
+
+      .panel {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--panel);
+        padding: 24px;
+      }
+
+      .panel h3 {
+        margin: 0 0 12px;
+        font-size: 21px;
+      }
+
+      .panel p {
+        margin: 0;
+        color: var(--muted);
+      }
+
+      .timeline {
+        display: grid;
+        gap: 14px;
+      }
+
+      .timeline-item {
+        display: grid;
+        grid-template-columns: 150px 1fr;
+        gap: 18px;
+        border-top: 1px solid var(--line);
+        padding-top: 18px;
+      }
+
+      .timeline-item:first-child {
+        border-top: 0;
+        padding-top: 0;
+      }
+
+      .time {
+        color: var(--green);
+        font-size: 14px;
+        font-weight: 760;
+      }
+
+      .timeline-item h3 {
+        margin: 0 0 6px;
+        font-size: 21px;
+      }
+
+      .timeline-item p {
+        margin: 0;
+        color: var(--muted);
+      }
+
+      .resource-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 12px;
+      }
+
+      .mini-link {
+        display: inline-flex;
+        align-items: center;
+        min-height: 34px;
+        padding: 0 12px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #fff;
+        color: var(--ink);
+        font-size: 14px;
+        font-weight: 720;
+      }
+
+      .mini-link:hover {
+        border-color: rgba(13, 124, 102, 0.45);
+        color: var(--green);
+      }
+
+      .project-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 18px;
+      }
+
+      .project {
+        display: flex;
+        min-height: 330px;
+        flex-direction: column;
+        justify-content: space-between;
+        overflow: hidden;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--panel);
+      }
+
+      .project-media {
+        height: 94px;
+        border-bottom: 1px solid var(--line);
+        background: #eef1f5;
+      }
+
+      .project-media.audio {
+        background:
+          repeating-linear-gradient(
+            90deg,
+            rgba(255, 255, 255, 0.28) 0 8px,
+            transparent 8px 18px
+          ),
+          linear-gradient(135deg, var(--green), var(--blue));
+      }
+
+      .project-media.speech {
+        background:
+          radial-gradient(circle at 20% 52%, rgba(255, 255, 255, 0.76) 0 10px, transparent 11px),
+          radial-gradient(circle at 50% 48%, rgba(255, 255, 255, 0.52) 0 18px, transparent 19px),
+          radial-gradient(circle at 78% 58%, rgba(255, 255, 255, 0.66) 0 12px, transparent 13px),
+          linear-gradient(135deg, var(--red), var(--gold));
+      }
+
+      .project-media.rag {
+        background:
+          linear-gradient(90deg, rgba(255, 255, 255, 0.24) 1px, transparent 1px),
+          linear-gradient(0deg, rgba(255, 255, 255, 0.24) 1px, transparent 1px),
+          linear-gradient(135deg, var(--blue), #59636f);
+        background-size: 22px 22px, 22px 22px, auto;
+      }
+
+      .project-media.vision {
+        background:
+          linear-gradient(120deg, rgba(255, 255, 255, 0.28) 12%, transparent 12% 24%, rgba(255, 255, 255, 0.18) 24% 36%, transparent 36%),
+          linear-gradient(135deg, #335c67, var(--green));
+      }
+
+      .project-body {
+        padding: 22px;
+      }
+
+      .tag {
+        display: inline-flex;
+        margin-bottom: 14px;
+        color: var(--green);
+        font-size: 13px;
+        font-weight: 760;
+      }
+
+      .project h3 {
+        margin: 0 0 12px;
+        font-size: 22px;
+        line-height: 1.22;
+        letter-spacing: 0;
+      }
+
+      .project p {
+        margin: 0;
+        color: var(--muted);
+      }
+
+      .project-footer {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 10px;
+        padding: 18px 22px 22px;
+        color: var(--muted);
+        font-size: 14px;
+      }
+
+      .project-footer a {
+        color: var(--ink);
+        font-weight: 720;
+      }
+
+      .project-footer a:hover {
+        color: var(--green);
+      }
+
+      .skill-grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 18px;
+      }
+
+      .skill {
+        border-top: 1px solid var(--line);
+        padding-top: 18px;
+      }
+
+      .skill h3 {
+        margin: 0 0 10px;
+        font-size: 19px;
+      }
+
+      .skill p {
+        margin: 0;
+        color: var(--muted);
+      }
+
+      .contact {
+        border-top: 1px solid var(--line);
+        background: #ffffff;
+      }
+
+      .contact-row {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 390px;
+        gap: 32px;
+        align-items: start;
+      }
+
+      .contact h2 {
+        margin: 0;
+        font-size: 34px;
+      }
+
+      .contact p {
+        max-width: 640px;
+        margin: 10px 0 0;
+        color: var(--muted);
+      }
+
+      .contact-list {
+        display: grid;
+        gap: 12px;
+        padding: 20px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--paper);
+      }
+
+      .contact-list span {
+        display: block;
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      .contact-list a {
+        word-break: break-word;
+      }
+
+      .contact-value {
+        display: block;
+        color: var(--ink);
+        font-weight: 720;
+      }
+
+      footer {
+        border-top: 1px solid var(--line);
+        padding: 24px 0;
+        color: var(--muted);
+        font-size: 14px;
+      }
+
+      @media (max-width: 900px) {
+        .nav-links {
+          display: none;
+        }
+
+        .hero-inner,
+        .two-col,
+        .contact-row {
+          grid-template-columns: 1fr;
+        }
+
+        .hero-inner {
+          gap: 34px;
+          min-height: auto;
+          padding-top: 54px;
+        }
+
+        .project-grid,
+        .skill-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .section-head {
+          align-items: start;
+          flex-direction: column;
+        }
+      }
+
+      @media (max-width: 560px) {
+        .nav-inner,
+        .section-inner,
+        .hero-inner {
+          width: min(100% - 28px, 1120px);
+        }
+
+        h1 {
+          font-size: 38px;
+        }
+
+        .lead {
+          font-size: 17px;
+        }
+
+        .stat-grid,
+        .timeline-item {
+          grid-template-columns: 1fr;
+        }
+
+        .actions {
+          width: 100%;
+        }
+
+        .button {
+          width: 100%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="site">
+      <nav class="nav" aria-label="主导航">
+        <div class="nav-inner">
+          <a class="brand" href="#">
+            <img
+              class="avatar"
+              src="https://avatars.githubusercontent.com/u/199927132?v=4"
+              alt="李想的 GitHub 头像"
+            />
+            <span>李想</span>
+          </a>
+          <div class="nav-right">
+            <div class="nav-links">
+              <a href="#about">关于</a>
+              <a href="#experience">经历</a>
+              <a href="#projects">项目</a>
+              <a href="#skills">技能</a>
+              <a href="#contact">联系</a>
+            </div>
+            <div class="lang-switch" aria-label="语言切换">
+              <button class="active" type="button" data-lang="zh">中文</button>
+              <button type="button" data-lang="en">EN</button>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      <main>
+        <header class="hero">
+          <div class="hero-inner">
+            <div>
+              <p class="eyebrow">AI 应用 · 语音与多模态 · RAG · 计算机视觉</p>
+              <h1>你好，我是李想。正在把模型做成可运行的 AI 系统。</h1>
+              <p class="lead">
+                我目前就读于 KTH 信息与网络工程硕士，关注大语言模型应用、语音生成、
+                RAG、计算机视觉等AI相关知识。我的项目通常从数据、模型、工程流程
+                到结果展示完整落地。
+              </p>
+              <div class="availability">
+                正在寻找 AI / 算法 / 多模态相关实习机会，可从 2026.06 至 2027.01 连续实习 7 个月，每周 5 天。
+              </div>
+              <div class="contact-strip" aria-label="联系方式">
+                <span>邮箱 <a class="text-link" href="mailto:darkolee@foxmail.com">darkolee@foxmail.com</a></span>
+                <span>GitHub <a class="text-link" href="https://github.com/XiangL77">github.com/XiangL77</a></span>
+              </div>
+              <div class="actions">
+                <a class="button primary" href="#projects">查看项目</a>
+                <a class="button" href="#contact">联系我</a>
+                <a class="button resume-button" href="assets/resume-cn.pdf">查看中文简历</a>
+              </div>
+            </div>
+
+            <aside class="profile-card" aria-label="个人概要">
+              <div class="profile-top"></div>
+              <div class="profile-body">
+                <img
+                  class="profile-avatar"
+                  src="https://avatars.githubusercontent.com/u/199927132?v=4"
+                  alt="李想"
+                />
+                <h2>李想</h2>
+                <p>KTH 硕士在读，方向是 AI 应用工程、语音、多模态。</p>
+                <div class="stat-grid">
+                  <div class="stat">
+                    <strong>KTH</strong>
+                    <span>硕士在读</span>
+                  </div>
+                  <div class="stat">
+                    <strong>AI</strong>
+                    <span>核心方向</span>
+                  </div>
+                  <div class="stat">
+                    <strong>7个月</strong>
+                    <span>可全职实习</span>
+                  </div>
+                </div>
+              </div>
+            </aside>
+          </div>
+        </header>
+
+        <section id="about">
+          <div class="section-inner">
+            <div class="section-head">
+              <h2>关于我</h2>
+              <p>
+                我喜欢处理从算法到系统之间的那一段：把模型、数据、检索、音频、
+                图像处理和评估流程组织成真正可以复现、可以演示、可以继续迭代的项目。
+              </p>
+            </div>
+
+            <div class="two-col">
+              <div class="panel">
+                <h3>教育背景</h3>
+                <p>
+                  瑞典皇家理工学院 KTH，信息与网络工程硕士，2024.08 - 2027.01，
+                  GPA 4.49/5。
+                </p>
+                <p style="margin-top: 12px">
+                  中国农业大学，信息科学试验班人工智能方向本科，2019.09 - 2024.07，
+                  GPA 3.67/4，连续获得学业优秀奖学金。
+                </p>
+              </div>
+              <div class="panel">
+                <h3>个人定位</h3>
+                <p>
+                  我的经历横跨 LLM 应用、语音生成、RAG、计算机视觉和知识图谱。
+                  相比只做单点模型，我更关注如何把技术串成一个清晰的工作流：
+                  有数据输入、有模型处理、有调试空间，也有可展示的最终结果。
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="experience">
+          <div class="section-inner">
+            <div class="section-head">
+              <h2>经历</h2>
+              <p>
+                从互联网创新业务实习到科研项目，我的主要经历都围绕 AI 系统的构建、
+                数据处理、模型应用和结果验证展开。
+              </p>
+            </div>
+
+            <div class="timeline">
+              <div class="timeline-item">
+                <div class="time">2025.06 - 2025.08</div>
+                <div>
+                  <h3>微博北京总部 · 创新业务技术部实习生</h3>
+                  <p>
+                    设计并实现模块化自动播客系统，将多条新闻转换为自然中文播客节目；
+                    构建 Prompt 驱动的脚本生成流程，集成 IndexTTS 零样本语音克隆，
+                    并实现语音段落切分、BGM 融合、整集音频拼接与 MP3/MP4 导出。
+                  </p>
+                  <div class="resource-links">
+                    <a class="mini-link" href="https://github.com/XiangL77/multi-speaker-zero-shot-autopodcast">GitHub 仓库</a>
+                    <a class="mini-link" href="https://www.bilibili.com/video/BV1QauEz1ECc">演示视频</a>
+                  </div>
+                </div>
+              </div>
+              <div class="timeline-item">
+                <div class="time">2025.04 - 2025.06</div>
+                <div>
+                  <h3>轻量级语音关键词识别 · HuBERT + GPT-2 LoRA</h3>
+                  <p>
+                    基于 Google Speech Commands v0.02 构建关键词识别流程，将语音转换为
+                    HuBERT 离散 token 序列，并使用 GPT-2 序列分类模型结合 LoRA 微调完成
+                    二分类与多分类实验。
+                  </p>
+                  <div class="resource-links">
+                    <a class="mini-link" href="https://github.com/XiangL77/HuBERT-GPT2-LoRA-KWS-DT2119">GitHub 仓库</a>
+                  </div>
+                </div>
+              </div>
+              <div class="timeline-item">
+                <div class="time">2025.10 - 2025.12</div>
+                <div>
+                  <h3>面向无线通信优化问题建模的 RAG 系统 · KTH</h3>
+                  <p>
+                    构建结构化技术文档数据库，实现语义检索与召回流程，开发面向无线通信
+                    标准和优化问题的 RAG 问答系统，并与纯 LLM 输出进行对比分析。
+                  </p>
+                  <div class="resource-links">
+                    <a class="mini-link" href="https://github.com/XiangL77/RAG-Wireless-Communication-QA">GitHub 仓库</a>
+                  </div>
+                </div>
+              </div>
+              <div class="timeline-item">
+                <div class="time">2023.05 - 2024.06</div>
+                <div>
+                  <h3>基于计算机视觉的鱼类健康状态分析与游泳姿态建模</h3>
+                  <p>
+                    将国家级大学生创新创业计划与毕业设计合并推进：前期负责鱼类健康状态分析，
+                    后续深化为鱼类游泳姿态建模；使用 YOLOv8、ByteTrack、DeepLabV3+ 和 OpenCV
+                    完成检测、跟踪、分割与姿态骨骼建模，毕业设计以 A 结项。
+                  </p>
+                  <div class="resource-links">
+                    <a class="mini-link" href="assets/fish-posture-modeling.pdf">项目文档 PDF</a>
+                    <a class="mini-link" href="https://www.bilibili.com/video/BV1nKEP68EzS">目标跟踪部分的展示视频</a>
+                  </div>
+                </div>
+              </div>
+              <div class="timeline-item">
+                <div class="time">2022.03 - 2023.05</div>
+                <div>
+                  <h3>基于知识图谱的作物种植问题自动问答系统 · 项目负责人</h3>
+                  <p>
+                    使用 Python 爬虫收集作物种植问答数据，设计 Neo4j 知识图谱数据库，
+                    开发自动问答系统，获得软件著作权，并发表相关 EI 论文。
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="projects">
+          <div class="section-inner">
+            <div class="section-head">
+              <h2>精选项目</h2>
+              <p>
+                这些项目展示了我目前最想继续深入的方向：语音与生成式媒体、RAG、
+                计算机视觉，以及把实验流程整理成可复现工程。
+              </p>
+            </div>
+
+            <div class="project-grid">
+              <article class="project">
+                <div class="project-media audio"></div>
+                <div class="project-body">
+                  <span class="tag">语音生成 / LLM 应用</span>
+                  <h3>自动多说话人播客生成系统</h3>
+                  <p>
+                    将新闻文本转换为中文播客脚本，调用 LLM 生成自然对话，
+                    使用 IndexTTS 合成多角色语音，并支持逐句调参、音频拼接和视频导出。
+                  </p>
+                </div>
+                <div class="project-footer">
+                  <a href="https://github.com/XiangL77/multi-speaker-zero-shot-autopodcast">GitHub</a>
+                  <a href="https://www.bilibili.com/video/BV1QauEz1ECc">演示视频</a>
+                </div>
+              </article>
+
+              <article class="project">
+                <div class="project-media speech"></div>
+                <div class="project-body">
+                  <span class="tag">语音识别 / LoRA 微调</span>
+                  <h3>HuBERT + GPT-2 关键词识别</h3>
+                  <p>
+                    使用 HuBERT 将语音转换为离散 token，再通过 GPT-2 序列分类模型和
+                    LoRA 微调完成二分类与多分类关键词识别实验，F1 均超过 95%。
+                  </p>
+                </div>
+                <div class="project-footer">
+                  <a href="https://github.com/XiangL77/HuBERT-GPT2-LoRA-KWS-DT2119">GitHub</a>
+                  <span>95%+ F1</span>
+                </div>
+              </article>
+
+              <article class="project">
+                <div class="project-media rag"></div>
+                <div class="project-body">
+                  <span class="tag">RAG / 无线通信</span>
+                  <h3>无线通信问答 RAG 系统</h3>
+                  <p>
+                    面向无线通信课程和技术文档构建检索增强问答流程，包含知识库处理、
+                    embedding 检索、本地/API 生成接口和结果评估。
+                  </p>
+                </div>
+                <div class="project-footer">
+                  <a href="https://github.com/XiangL77/RAG-Wireless-Communication-QA">GitHub</a>
+                  <span>Python</span>
+                </div>
+              </article>
+
+              <article class="project">
+                <div class="project-media vision"></div>
+                <div class="project-body">
+                  <span class="tag">计算机视觉 / 姿态建模</span>
+                  <h3>鱼类游泳姿态建模</h3>
+                  <p>
+                    构建鱼游数据集，使用 YOLOv8 与 ByteTrack 完成检测跟踪，
+                    结合 DeepLabV3+、OpenCV 骨架化和曲线平滑建立鱼类游泳姿态模型。
+                  </p>
+                </div>
+                <div class="project-footer">
+                  <a href="assets/fish-posture-modeling.pdf">项目文档</a>
+                  <a href="https://www.bilibili.com/video/BV1nKEP68EzS">目标跟踪部分的展示视频</a>
+                </div>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <section id="skills">
+          <div class="section-inner">
+            <div class="section-head">
+              <h2>技能方向</h2>
+              <p>
+                我的技能栈以 Python 和 AI 工程为中心，覆盖数据处理、模型训练、
+                多模态应用、语音处理和技术文档表达。
+              </p>
+            </div>
+
+            <div class="skill-grid">
+              <div class="skill">
+                <h3>编程与数据</h3>
+                <p>Python、C/C++、Pandas、NumPy、Matplotlib、数据预处理、清洗与可视化。</p>
+              </div>
+              <div class="skill">
+                <h3>机器学习与 LLM</h3>
+                <p>PyTorch、深度学习训练与调优、Prompt 工程、RAG、LoRA 微调、输出对比分析。</p>
+              </div>
+              <div class="skill">
+                <h3>视觉与多模态</h3>
+                <p>YOLOv8、ByteTrack、DeepLabV3+、OpenCV、Labelme、Labelimg、数据集构建。</p>
+              </div>
+              <div class="skill">
+                <h3>语音与检索</h3>
+                <p>ASR、IndexTTS、CosyVoice、Pydub、HuBERT token 化、语义检索、技术文档索引。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="contact" class="contact">
+          <div class="section-inner contact-row">
+            <div>
+              <h2>欢迎交流 AI 项目与任何实习机会。</h2>
+              <p>
+                我正在寻找 AI / 算法 / 多模态相关实习机会，可实习时间为
+                2026.06 - 2027.01，持续 7 个月，每周可实习 5 天。我希望继续做能够落地的
+                AI 应用：语音、多模态、RAG、知识系统，或者任何需要把模型能力组织成真实工作流的方向。
+              </p>
+            </div>
+            <div class="contact-list" aria-label="联系方式">
+              <div>
+                <span>实习时间</span>
+                <strong class="contact-value">2026.06 - 2027.01 · 7 个月 · 每周 5 天</strong>
+              </div>
+              <div>
+                <span>简历</span>
+                <a class="text-link resume-link" href="assets/resume-cn.pdf">查看中文简历 PDF</a>
+              </div>
+              <div>
+                <span>邮箱</span>
+                <a class="text-link" href="mailto:darkolee@foxmail.com">darkolee@foxmail.com</a>
+              </div>
+              <div>
+                <span>GitHub</span>
+                <a class="text-link" href="https://github.com/XiangL77">github.com/XiangL77</a>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <footer>
+        <div class="section-inner">© 2026 李想。Built for GitHub Pages.</div>
+      </footer>
+    </div>
+    <script>
+      const translations = {
+        zh: {
+          title: "李想 | AI 应用与多模态工程",
+          nav: ["关于", "经历", "项目", "技能", "联系"],
+          eyebrow: "AI 应用 · 语音与多模态 · RAG · 计算机视觉",
+          h1: "你好，我是李想。正在把模型做成可运行的 AI 系统。",
+          lead:
+            "我目前就读于 KTH 信息与网络工程硕士，关注大语言模型应用、语音生成、RAG、计算机视觉等AI相关知识。我的项目通常从数据、模型、工程流程到结果展示完整落地。",
+          availability:
+            "正在寻找 AI / 算法 / 多模态相关实习机会，可从 2026.06 至 2027.01 连续实习 7 个月，每周 5 天。",
+          emailLabel: "邮箱 ",
+          githubLabel: "GitHub ",
+          viewProjects: "查看项目",
+          contactMe: "联系我",
+          profile:
+            "KTH 硕士在读，方向是 AI 应用工程、语音、多模态。",
+          stat1: "硕士在读",
+          stat2: "核心方向",
+          stat3Strong: "7个月",
+          stat3: "可全职实习",
+          aboutTitle: "关于我",
+          aboutIntro:
+            "我喜欢处理从算法到系统之间的那一段：把模型、数据、检索、音频、图像处理和评估流程组织成真正可以复现、可以演示、可以继续迭代的项目。",
+          eduTitle: "教育背景",
+          edu1:
+            "瑞典皇家理工学院 KTH，信息与网络工程硕士，2024.08 - 2027.01，GPA 4.49/5。",
+          edu2:
+            "中国农业大学，信息科学试验班人工智能方向本科，2019.09 - 2024.07，GPA 3.67/4，连续获得学业优秀奖学金。",
+          positionTitle: "个人定位",
+          position:
+            "我的经历横跨 LLM 应用、语音生成、RAG、计算机视觉和知识图谱。相比只做单点模型，我更关注如何把技术串成一个清晰的工作流：有数据输入、有模型处理、有调试空间，也有可展示的最终结果。",
+          expTitle: "经历",
+          expIntro:
+            "从互联网创新业务实习到科研项目，我的主要经历都围绕 AI 系统的构建、数据处理、模型应用和结果验证展开。",
+          experiences: [
+            {
+              title: "微博北京总部 · 创新业务技术部实习生",
+              body:
+                "设计并实现模块化自动播客系统，将多条新闻转换为自然中文播客节目；构建 Prompt 驱动的脚本生成流程，集成 IndexTTS 零样本语音克隆，并实现语音段落切分、BGM 融合、整集音频拼接与 MP3/MP4 导出。",
+            },
+            {
+              title: "轻量级语音关键词识别 · HuBERT + GPT-2 LoRA",
+              body:
+                "基于 Google Speech Commands v0.02 构建关键词识别流程，将语音转换为 HuBERT 离散 token 序列，并使用 GPT-2 序列分类模型结合 LoRA 微调完成二分类与多分类实验。",
+            },
+            {
+              title: "面向无线通信优化问题建模的 RAG 系统 · KTH",
+              body:
+                "构建结构化技术文档数据库，实现语义检索与召回流程，开发面向无线通信标准和优化问题的 RAG 问答系统，并与纯 LLM 输出进行对比分析。",
+            },
+            {
+              title: "基于计算机视觉的鱼类健康状态分析与游泳姿态建模",
+              body:
+                "将国家级大学生创新创业计划与毕业设计合并推进：前期负责鱼类健康状态分析，后续深化为鱼类游泳姿态建模；使用 YOLOv8、ByteTrack、DeepLabV3+ 和 OpenCV 完成检测、跟踪、分割与姿态骨骼建模，毕业设计以 A 结项。",
+            },
+            {
+              title: "基于知识图谱的作物种植问题自动问答系统 · 项目负责人",
+              body:
+                "使用 Python 爬虫收集作物种植问答数据，设计 Neo4j 知识图谱数据库，开发自动问答系统，获得软件著作权，并发表相关 EI 论文。",
+            },
+          ],
+          repo: "GitHub 仓库",
+          demo: "演示视频",
+          pdf: "项目文档 PDF",
+          trackingVideo: "目标跟踪部分的展示视频",
+          projectsTitle: "精选项目",
+          projectsIntro:
+            "这些项目展示了我目前最想继续深入的方向：语音与生成式媒体、RAG、计算机视觉，以及把实验流程整理成可复现工程。",
+          projects: [
+            {
+              tag: "语音生成 / LLM 应用",
+              title: "自动多说话人播客生成系统",
+              body:
+                "将新闻文本转换为中文播客脚本，调用 LLM 生成自然对话，使用 IndexTTS 合成多角色语音，并支持逐句调参、音频拼接和视频导出。",
+              links: ["GitHub", "演示视频"],
+            },
+            {
+              tag: "语音识别 / LoRA 微调",
+              title: "HuBERT + GPT-2 关键词识别",
+              body:
+                "使用 HuBERT 将语音转换为离散 token，再通过 GPT-2 序列分类模型和 LoRA 微调完成二分类与多分类关键词识别实验，F1 均超过 95%。",
+              links: ["GitHub", "95%+ F1"],
+            },
+            {
+              tag: "RAG / 无线通信",
+              title: "无线通信问答 RAG 系统",
+              body:
+                "面向无线通信课程和技术文档构建检索增强问答流程，包含知识库处理、embedding 检索、本地/API 生成接口和结果评估。",
+              links: ["GitHub", "Python"],
+            },
+            {
+              tag: "计算机视觉 / 姿态建模",
+              title: "鱼类游泳姿态建模",
+              body:
+                "构建鱼游数据集，使用 YOLOv8 与 ByteTrack 完成检测跟踪，结合 DeepLabV3+、OpenCV 骨架化和曲线平滑建立鱼类游泳姿态模型。",
+              links: ["项目文档", "目标跟踪部分的展示视频"],
+            },
+          ],
+          skillsTitle: "技能方向",
+          skillsIntro:
+            "我的技能栈以 Python 和 AI 工程为中心，覆盖数据处理、模型训练、多模态应用、语音处理和技术文档表达。",
+          skills: [
+            ["编程与数据", "Python、C/C++、Pandas、NumPy、Matplotlib、数据预处理、清洗与可视化。"],
+            ["机器学习与 LLM", "PyTorch、深度学习训练与调优、Prompt 工程、RAG、LoRA 微调、输出对比分析。"],
+            ["视觉与多模态", "YOLOv8、ByteTrack、DeepLabV3+、OpenCV、Labelme、Labelimg、数据集构建。"],
+            ["语音与检索", "ASR、IndexTTS、CosyVoice、Pydub、HuBERT token 化、语义检索、技术文档索引。"],
+          ],
+          contactTitle: "欢迎交流 AI 项目与任何实习机会。",
+          contactBody:
+            "我正在寻找 AI / 算法 / 多模态相关实习机会，可实习时间为 2026.06 - 2027.01，持续 7 个月，每周可实习 5 天。我希望继续做能够落地的 AI 应用：语音、多模态、RAG、知识系统，或者任何需要把模型能力组织成真实工作流的方向。",
+          internshipLabel: "实习时间",
+          internshipValue: "2026.06 - 2027.01 · 7 个月 · 每周 5 天",
+          resumeButton: "查看中文简历",
+          resumeLabel: "简历",
+          resumeText: "查看中文简历 PDF",
+          resumeHref: "assets/resume-cn.pdf",
+          footer: "© 2026 李想。Built for GitHub Pages.",
+        },
+        en: {
+          title: "Xiang Li | AI Applications and Multimodal Engineering",
+          nav: ["About", "Experience", "Projects", "Skills", "Contact"],
+          eyebrow: "AI Applications · Speech and Multimodal · RAG · Computer Vision",
+          h1: "Hi, I’m Xiang Li. I build runnable AI systems from model capabilities.",
+          lead:
+            "I am currently pursuing an M.Sc. in Information and Network Engineering at KTH. My interests include LLM applications, speech generation, RAG, and computer vision. I like building projects that connect data, models, engineering workflows, and demonstrable results.",
+          availability:
+            "Seeking AI / algorithm / multimodal internship opportunities. Available for 7 consecutive months from 2026.06 to 2027.01, 5 days per week.",
+          emailLabel: "Email ",
+          githubLabel: "GitHub ",
+          viewProjects: "View Projects",
+          contactMe: "Contact Me",
+          profile:
+            "M.Sc. student at KTH, focused on AI application engineering, speech, and multimodal systems.",
+          stat1: "M.Sc. student",
+          stat2: "Core focus",
+          stat3Strong: "7 mo.",
+          stat3: "full-time internship",
+          aboutTitle: "About",
+          aboutIntro:
+            "I enjoy the space between algorithms and systems: organizing models, data, retrieval, audio, image processing, and evaluation into projects that can be reproduced, demonstrated, and iterated.",
+          eduTitle: "Education",
+          edu1:
+            "KTH Royal Institute of Technology, M.Sc. in Information and Network Engineering, 2024.08 - 2027.01, GPA 4.49/5.",
+          edu2:
+            "China Agricultural University, B.Sc. in Information Science Experimental Class, AI track, 2019.09 - 2024.07, GPA 3.67/4, awarded Academic Excellence Scholarships for four consecutive years.",
+          positionTitle: "Positioning",
+          position:
+            "My experience spans LLM applications, speech generation, RAG, computer vision, and knowledge graphs. Rather than working on isolated models only, I care about building clear workflows with data input, model processing, debugging space, and presentable final outputs.",
+          expTitle: "Experience",
+          expIntro:
+            "From an innovation business internship to research projects, my work centers on building AI systems, processing data, applying models, and validating results.",
+          experiences: [
+            {
+              title: "Weibo Beijing HQ · Innovation Business Technology Intern",
+              body:
+                "Designed and implemented a modular automatic podcast system that converts multiple news items into natural Chinese podcast episodes; built a prompt-driven script generation workflow, integrated IndexTTS zero-shot voice cloning, and automated speech segmentation, BGM mixing, full-episode audio assembly, and MP3/MP4 export.",
+            },
+            {
+              title: "Lightweight Keyword Spotting · HuBERT + GPT-2 LoRA",
+              body:
+                "Built a keyword spotting pipeline based on Google Speech Commands v0.02, converted speech into discrete HuBERT token sequences, and fine-tuned GPT-2 sequence classifiers with LoRA for binary and multi-class classification.",
+            },
+            {
+              title: "RAG System for Wireless Communication Optimization · KTH",
+              body:
+                "Built a structured technical document database, implemented semantic retrieval and recall, developed a RAG QA system for wireless communication standards and optimization problems, and compared results against pure LLM outputs.",
+            },
+            {
+              title: "Fish Health Analysis and Swimming Posture Modeling with Computer Vision",
+              body:
+                "Combined a national innovation project with my thesis work: built a fish swimming dataset, used YOLOv8, ByteTrack, DeepLabV3+, and OpenCV for detection, tracking, segmentation, and posture skeleton modeling. The thesis was graded A.",
+            },
+            {
+              title: "Crop Planting QA System Based on Knowledge Graph · Project Lead",
+              body:
+                "Collected crop planting QA data with Python crawlers, designed a Neo4j knowledge graph database, developed an automatic QA system, obtained software copyright, and published a related EI paper.",
+            },
+          ],
+          repo: "GitHub Repository",
+          demo: "Demo Video",
+          pdf: "Project PDF",
+          trackingVideo: "Object Tracking Demo",
+          projectsTitle: "Featured Projects",
+          projectsIntro:
+            "These projects show the directions I want to keep developing: speech and generative media, RAG, computer vision, and reproducible engineering workflows.",
+          projects: [
+            {
+              tag: "Speech Generation / LLM Application",
+              title: "Automatic Multi-Speaker Podcast Generation",
+              body:
+                "Converts news text into Chinese podcast scripts, uses LLMs to generate natural dialogue, synthesizes multi-role speech with IndexTTS, and supports line-level tuning, audio assembly, and video export.",
+              links: ["GitHub", "Demo Video"],
+            },
+            {
+              tag: "Speech Recognition / LoRA Fine-Tuning",
+              title: "HuBERT + GPT-2 Keyword Spotting",
+              body:
+                "Converts speech into discrete tokens with HuBERT, then fine-tunes GPT-2 sequence classifiers with LoRA for binary and multi-class keyword spotting. Both F1 scores exceed 95%.",
+              links: ["GitHub", "95%+ F1"],
+            },
+            {
+              tag: "RAG / Wireless Communication",
+              title: "Wireless Communication RAG QA System",
+              body:
+                "Builds a retrieval-augmented QA workflow for wireless communication coursework and technical documents, including knowledge base processing, embedding retrieval, local/API generation, and evaluation.",
+              links: ["GitHub", "Python"],
+            },
+            {
+              tag: "Computer Vision / Posture Modeling",
+              title: "Fish Swimming Posture Modeling",
+              body:
+                "Builds a fish swimming dataset, uses YOLOv8 and ByteTrack for detection and tracking, and combines DeepLabV3+, OpenCV skeletonization, and curve smoothing for posture modeling.",
+              links: ["Project PDF", "Object Tracking Demo"],
+            },
+          ],
+          skillsTitle: "Skills",
+          skillsIntro:
+            "My skill set centers on Python and AI engineering, covering data processing, model training, multimodal applications, speech processing, and technical documentation.",
+          skills: [
+            ["Programming and Data", "Python, C/C++, Pandas, NumPy, Matplotlib, data preprocessing, cleaning, and visualization."],
+            ["Machine Learning and LLMs", "PyTorch, deep learning training and tuning, prompt engineering, RAG, LoRA fine-tuning, and output comparison."],
+            ["Vision and Multimodal", "YOLOv8, ByteTrack, DeepLabV3+, OpenCV, Labelme, Labelimg, and dataset construction."],
+            ["Speech and Retrieval", "ASR, IndexTTS, CosyVoice, Pydub, HuBERT tokenization, semantic retrieval, and technical document indexing."],
+          ],
+          contactTitle: "Open to AI projects and internship opportunities.",
+          contactBody:
+            "I am seeking AI / algorithm / multimodal internship opportunities from 2026.06 to 2027.01 for 7 months, available 5 days per week. I hope to keep building practical AI applications in speech, multimodal systems, RAG, knowledge systems, or any direction that turns model capabilities into real workflows.",
+          internshipLabel: "Internship availability",
+          internshipValue: "2026.06 - 2027.01 · 7 months · 5 days/week",
+          resumeButton: "English Resume Coming Soon",
+          resumeLabel: "Resume",
+          resumeText: "English resume coming soon",
+          resumeHref: "#contact",
+          footer: "© 2026 Xiang Li. Built for GitHub Pages.",
+        },
+      };
+
+      function setText(selector, value) {
+        const element = document.querySelector(selector);
+        if (element) element.textContent = value;
+      }
+
+      function setLinkText(selector, label, hrefText) {
+        const element = document.querySelector(selector);
+        if (!element) return;
+        const link = element.querySelector("a");
+        element.firstChild.textContent = label;
+        if (link) link.textContent = hrefText;
+      }
+
+      function applyLanguage(lang) {
+        const t = translations[lang];
+        document.documentElement.lang = lang === "zh" ? "zh-CN" : "en";
+        document.title = t.title;
+
+        document.querySelectorAll(".nav-links a").forEach((item, index) => {
+          item.textContent = t.nav[index];
+        });
+        setText(".eyebrow", t.eyebrow);
+        setText("h1", t.h1);
+        setText(".lead", t.lead);
+        setText(".availability", t.availability);
+        setLinkText(".contact-strip span:nth-child(1)", t.emailLabel, "darkolee@foxmail.com");
+        setLinkText(".contact-strip span:nth-child(2)", t.githubLabel, "github.com/XiangL77");
+        setText(".actions .button.primary", t.viewProjects);
+        setText(".actions .button:nth-child(2)", t.contactMe);
+        const resumeButton = document.querySelector(".resume-button");
+        if (resumeButton) {
+          resumeButton.textContent = t.resumeButton;
+          resumeButton.href = t.resumeHref;
+        }
+        setText(".profile-card p", t.profile);
+        setText(".stat:nth-child(1) span", t.stat1);
+        setText(".stat:nth-child(2) span", t.stat2);
+        setText(".stat:nth-child(3) strong", t.stat3Strong);
+        setText(".stat:nth-child(3) span", t.stat3);
+
+        setText("#about .section-head h2", t.aboutTitle);
+        setText("#about .section-head p", t.aboutIntro);
+        setText("#about .panel:nth-child(1) h3", t.eduTitle);
+        setText("#about .panel:nth-child(1) p:nth-of-type(1)", t.edu1);
+        setText("#about .panel:nth-child(1) p:nth-of-type(2)", t.edu2);
+        setText("#about .panel:nth-child(2) h3", t.positionTitle);
+        setText("#about .panel:nth-child(2) p", t.position);
+
+        setText("#experience .section-head h2", t.expTitle);
+        setText("#experience .section-head p", t.expIntro);
+        document.querySelectorAll(".timeline-item").forEach((item, index) => {
+          const data = t.experiences[index];
+          if (!data) return;
+          const heading = item.querySelector("h3");
+          const body = item.querySelector("p");
+          if (heading) heading.textContent = data.title;
+          if (body) body.textContent = data.body;
+        });
+        const resourceLabels = [t.repo, t.demo, t.repo, t.repo, t.pdf, t.trackingVideo];
+        document.querySelectorAll("#experience .mini-link").forEach((item, index) => {
+          item.textContent = resourceLabels[index];
+        });
+
+        setText("#projects .section-head h2", t.projectsTitle);
+        setText("#projects .section-head p", t.projectsIntro);
+        document.querySelectorAll(".project").forEach((item, index) => {
+          const data = t.projects[index];
+          if (!data) return;
+          setText(`#projects .project:nth-child(${index + 1}) .tag`, data.tag);
+          setText(`#projects .project:nth-child(${index + 1}) h3`, data.title);
+          setText(`#projects .project:nth-child(${index + 1}) p`, data.body);
+          item.querySelectorAll(".project-footer > *").forEach((link, linkIndex) => {
+            link.textContent = data.links[linkIndex];
+          });
+        });
+
+        setText("#skills .section-head h2", t.skillsTitle);
+        setText("#skills .section-head p", t.skillsIntro);
+        document.querySelectorAll(".skill").forEach((item, index) => {
+          const data = t.skills[index];
+          if (!data) return;
+          item.querySelector("h3").textContent = data[0];
+          item.querySelector("p").textContent = data[1];
+        });
+
+        setText("#contact h2", t.contactTitle);
+        setText("#contact p", t.contactBody);
+        setText(".contact-list div:nth-child(1) span", t.internshipLabel);
+        setText(".contact-value", t.internshipValue);
+        setText(".contact-list div:nth-child(2) span", t.resumeLabel);
+        const resumeLink = document.querySelector(".resume-link");
+        if (resumeLink) {
+          resumeLink.textContent = t.resumeText;
+          resumeLink.href = t.resumeHref;
+        }
+        setText(".contact-list div:nth-child(3) span", lang === "zh" ? "邮箱" : "Email");
+        setText(".contact-list div:nth-child(4) span", "GitHub");
+        setText("footer .section-inner", t.footer);
+
+        document.querySelectorAll(".lang-switch button").forEach((button) => {
+          button.classList.toggle("active", button.dataset.lang === lang);
+        });
+      }
+
+      document.querySelectorAll(".lang-switch button").forEach((button) => {
+        button.addEventListener("click", () => applyLanguage(button.dataset.lang));
+      });
+    </script>
+  </body>
+</html>
